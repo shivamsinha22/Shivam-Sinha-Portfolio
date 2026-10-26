@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shivam Sinha – Prompt Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3F5F9; --card:#FFFFFF; --ink:#1B2338; --soft:#57607A; --line:#D9DFEB;
+  --accent:#3B4BDB; --accent-ink:#FFFFFF; --mark:#FFD84D; --mark-ink:#1B2338; --ok:#1E8E5A;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#12161F; --card:#1A2030; --ink:#E8ECF5; --soft:#9AA4BD; --line:#2A3248;
+    --accent:#8C9AFF; --accent-ink:#12161F; --ok:#5FD39A; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#12161F; --card:#1A2030; --ink:#E8ECF5; --soft:#9AA4BD; --line:#2A3248;
+  --accent:#8C9AFF; --accent-ink:#12161F; --ok:#5FD39A; color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+html{background:radial-gradient(900px 620px at 88% -8%,rgba(59,75,219,.20),transparent 62%),radial-gradient(760px 560px at -6% 45%,rgba(140,80,255,.13),transparent 60%),radial-gradient(700px 500px at 70% 105%,rgba(255,216,77,.12),transparent 60%),var(--paper);background-attachment:fixed}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+body{margin:0;background:transparent;position:relative;color:var(--ink);font:400 17px/1.6 "Instrument Sans",system-ui,sans-serif;-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;line-height:1.08;margin:0;letter-spacing:-.02em}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+.lab,.panel{will-change:transform;transform-style:preserve-3d}
+.hero h1{text-shadow:0 0 24px var(--paper),0 0 8px var(--paper)}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 0;font-weight:500}
+nav .links{display:flex;gap:20px;font-size:15px}
+nav a{text-decoration:none;color:var(--soft)}
+nav a:hover{color:var(--ink)}
+.logo{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:20px;color:var(--ink)}
+
+/* hero */
+.hero{display:grid;gap:36px;padding:28px 0 64px}
+.hero h1{font-size:clamp(44px,9vw,88px);font-weight:800}
+.hero p.lead{font-size:clamp(18px,2.4vw,21px);color:var(--soft);max-width:34em;margin:20px 0 0}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.btn{display:inline-block;padding:12px 20px;border-radius:10px;font-weight:600;text-decoration:none;border:2px solid var(--ink)}
+.btn.main{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn:hover{transform:translateY(-1px)}
+
+/* prompt lab */
+.lab{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 18px 40px -24px rgba(27,35,56,.35)}
+.lab-head{padding:12px 16px;border-bottom:1px solid var(--line);font-size:14px;color:var(--soft);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.tabs{display:flex;border-bottom:1px solid var(--line);overflow-x:auto}
+.tab{flex:1;min-width:max-content;background:none;border:0;padding:12px 14px;font:600 14px "Instrument Sans",sans-serif;color:var(--soft);cursor:pointer;border-bottom:3px solid transparent}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.pane{padding:16px}
+.label{font-size:13px;font-weight:600;color:var(--soft);margin:0 0 6px}
+pre{margin:0 0 14px;white-space:pre-wrap;word-break:break-word;font:14px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px}
+pre.out{border-left:4px solid var(--accent)}
+.note{font-size:13px;color:var(--soft);margin:0}
+
+/* sections */
+section{padding:56px 0;border-top:1px solid var(--line)}
+section>.wrap>h2{font-size:clamp(30px,5vw,44px);margin-bottom:28px}
+.proj{display:grid;gap:28px;margin-bottom:44px}
+.proj h3{font-size:clamp(24px,3.6vw,32px);margin-bottom:6px}
+.tag{color:var(--soft);font-size:15px;margin:0 0 14px}
+.proj ul{margin:0;padding-left:20px;display:grid;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{padding:4px 12px;border:1px solid var(--line);border-radius:999px;font-size:14px;background:var(--card)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.claim{padding:8px 10px;border-radius:8px;margin:0 0 8px;font-size:15px;border:1px dashed transparent}
+.claim.bad.flag{background:var(--mark);color:var(--mark-ink);border-color:#c9a200}
+.claim .src{display:block;font-size:12px;opacity:.75}
+button.run{font:600 15px "Instrument Sans",sans-serif;padding:10px 16px;border-radius:10px;border:2px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer;margin-top:6px}
+button.run:hover{background:var(--ink);color:var(--paper)}
+.status{font-size:14px;margin:12px 0 0;min-height:1.5em;color:var(--soft)}
+
+.skills{display:grid;gap:22px}
+.skills h3{font-size:19px;margin-bottom:8px}
+.skills p{margin:0;color:var(--soft)}
+.cols{display:grid;gap:36px}
+.timeline{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.timeline li{padding-left:16px;border-left:3px solid var(--accent)}
+.timeline small{display:block;color:var(--soft)}
+.contact a.big{font:800 clamp(24px,5vw,44px)/1.15 "Bricolage Grotesque",sans-serif;letter-spacing:-.02em;word-break:break-word}
+.contact ul{list-style:none;padding:0;margin:20px 0 0;display:flex;flex-wrap:wrap;gap:12px 28px}
+footer{padding:28px 0 40px;color:var(--soft);font-size:14px;border-top:1px solid var(--line)}
+
+@media (min-width:860px){
+  .hero{grid-template-columns:1.05fr .95fr;align-items:center;gap:48px}
+  .proj{grid-template-columns:1fr 1fr;align-items:start}
+  .proj.flip>:first-child{order:2}
+  .skills{grid-template-columns:repeat(2,1fr)}
+  .cols{grid-template-columns:1.2fr .8fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="wrap">
+  <nav aria-label="Main">
+    <span class="logo">Shivam Sinha</span>
+    <div class="links"><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#contact">Contact</a></div>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <h1>I write prompts that models can’t misread.</h1>
+      <p class="lead">I’m a BCA graduate and entry-level Prompt Engineer. I test prompts across ChatGPT, Gemini and Claude, and build workflows that cut down hallucinations.</p>
+      <div class="cta">
+        <a class="btn main" href="#projects">See my projects</a>
+        <a class="btn" href="#contact">Email me</a>
+      </div>
+    </div>
+
+    <div class="lab" aria-label="Prompt style demo">
+      <div class="lab-head"><span>Same task, three prompt styles</span><span>Pick one</span></div>
+      <div class="tabs" role="tablist" aria-label="Prompt style">
+        <button class="tab" role="tab" aria-selected="true" data-i="0">Zero-shot</button>
+        <button class="tab" role="tab" aria-selected="false" data-i="1">Few-shot</button>
+        <button class="tab" role="tab" aria-selected="false" data-i="2">Chain-of-thought</button>
+      </div>
+      <div class="pane" role="tabpanel" aria-live="polite">
+        <p class="label">Prompt</p>
+        <pre id="p"></pre>
+        <p class="label">Model output</p>
+        <pre class="out" id="o"></pre>
+        <p class="note" id="n"></p>
+      </div>
+    </div>
+  </header>
+</div>
+
+<section id="projects">
+  <div class="wrap">
+    <h2>Projects</h2>
+
+    <article class="proj">
+      <div>
+        <h3>Prompt Engineering Toolkit</h3>
+        <p class="tag">Personal project</p>
+        <ul>
+          <li>A reusable library of prompt templates (few-shot, zero-shot, chain-of-thought) for summarization, data extraction and classification.</li>
+          <li>A lightweight evaluation framework that scores ChatGPT, Gemini and Claude on accuracy, consistency and hallucination rate.</li>
+          <li>Prompt constraints and system instructions refined through A/B tests, giving more consistent and less off-target answers.</li>
+          <li>Patterns and best practices written up so future AI projects start faster.</li>
+        </ul>
+        <div class="chips"><span class="chip">Prompt design</span><span class="chip">A/B testing</span><span class="chip">LLM evaluation</span></div>
+      </div>
+      <div class="panel">
+        <p class="label">What the framework scores</p>
+        <pre>Accuracy        – is the answer correct?
+Consistency     – same answer on re-runs?
+Hallucination   – any claim without support?</pre>
+        <p class="note">Each prompt variant is run on all three models, then compared side by side.</p>
+      </div>
+    </article>
+
+    <article class="proj flip">
+      <div>
+        <h3>RAG-Based Fact-Checking Pipeline</h3>
+        <p class="tag">Personal project · Python</p>
+        <ul>
+          <li>A retrieval-augmented generation pipeline that grounds answers in a trusted document set (TF-IDF retrieval, upgradeable to vector embeddings).</li>
+          <li>A self-verification step where the model cross-checks its own claims against retrieved sources and flags unsupported statements.</li>
+          <li>A benchmarking script comparing ungrounded and grounded-plus-verified answers on a 10-question test set.</li>
+          <li>Findings turned into prompt-design guidelines for reducing hallucinations.</li>
+        </ul>
+        <div class="chips"><span class="chip">Python</span><span class="chip">RAG</span><span class="chip">TF-IDF</span><span class="chip">Hallucination mitigation</span></div>
+      </div>
+      <div class="panel">
+        <p class="label">Try the verification step (illustrative)</p>
+        <p class="claim">Water boils at 100 °C at sea level.<span class="src">Source found: physics notes</span></p>
+        <p class="claim bad" id="bad">The boiling point drops to 50 °C inside any sealed pot.<span class="src" id="badsrc">Not checked yet</span></p>
+        <button class="run" id="run">Run verification</button>
+        <p class="status" id="st" role="status"></p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <h2>Skills</h2>
+    <div class="skills">
+      <div><h3>Prompt engineering</h3><p>Prompt design and optimization, few-shot and zero-shot prompting, chain-of-thought, AI output evaluation, hallucination mitigation.</p></div>
+      <div><h3>AI tools</h3><p>ChatGPT, Google Gemini, Anthropic Claude, OpenAI Playground, Canva.</p></div>
+      <div><h3>Technical</h3><p>AI and machine learning fundamentals, Python, JSON, cloud computing basics.</p></div>
+      <div><h3>Working style</h3><p>Analytical problem-solving, attention to detail, creative thinking, iterative testing.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="background">
+  <div class="wrap cols">
+    <div>
+      <h2 style="font-size:clamp(30px,5vw,44px);margin-bottom:28px">Education and certifications</h2>
+      <ul class="timeline">
+        <li><strong>Bachelor of Computer Applications</strong><small>Dhamma Dipa International Buddhist University · Graduated 2026</small></li>
+        <li><strong>AI for Everyone: Master the Basics</strong><small>Deloitte Australia</small></li>
+        <li><strong>AI for All</strong><small>Intel (edX)</small></li>
+        <li><strong>Introduction to Cloud</strong><small>IBM</small></li>
+        <li><strong>Technology Job Simulation</strong><small>Forage</small></li>
+      </ul>
+    </div>
+    <div>
+      <h2 style="font-size:clamp(30px,5vw,44px);margin-bottom:28px">Outside work</h2>
+      <ul class="timeline">
+        <li>Exploring AI and emerging technologies</li>
+        <li>Graphic design in Canva</li>
+        <li>Reading tech blogs and articles</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="wrap">
+    <h2>Let’s talk</h2>
+    <a class="big" href="mailto:shivamsinha8687@gmail.com" target="_blank" rel="noopener">shivamsinha8687@gmail.com</a>
+    <p><button class="run" id="cp" type="button">Copy email address</button></p>
+    <p class="status" id="cps" role="status"></p>
+    <ul>
+      <li><a href="tel:+917632018687" target="_blank" rel="noopener">7632018687</a></li>
+      <li><a href="https://linkedin.com/in/shivam-sinha-124455249" rel="noopener">LinkedIn</a></li>
+    </ul>
+  </div>
+</section>
+
+<footer><div class="wrap">© 2026 Shivam Sinha</div></footer>
+
+<script>
+(function(){
+  var D=[
+    {p:'Classify the sentiment of this message:\n"The app keeps crashing since the update."',
+     o:'Negative',
+     n:'Short and direct, but the format can drift between runs.'},
+    {p:'Message: "Love the new dark mode!"\nSentiment: Positive\n\nMessage: "Where is my refund?"\nSentiment: Negative\n\nMessage: "The app keeps crashing since the update."\nSentiment:',
+     o:'Negative',
+     n:'Two examples fix the output format, so answers stay consistent.'},
+    {p:'Classify the sentiment of this message. Think step by step, then give the label.\n"The app keeps crashing since the update."',
+     o:'1. The user reports crashes.\n2. They link it to a recent update.\n3. There is no praise or neutral tone.\nLabel: Negative',
+     n:'Visible reasoning makes mistakes easier to spot and fix.'}
+  ];
+  var tabs=document.querySelectorAll('.tab'),p=document.getElementById('p'),o=document.getElementById('o'),n=document.getElementById('n');
+  function show(i){
+    tabs.forEach(function(t,k){t.setAttribute('aria-selected',k===i?'true':'false')});
+    p.textContent=D[i].p;o.textContent=D[i].o;n.textContent=D[i].n;
+  }
+  tabs.forEach(function(t){t.addEventListener('click',function(){show(+t.dataset.i)})});
+  show(0);
+
+  var run=document.getElementById('run'),bad=document.getElementById('bad'),src=document.getElementById('badsrc'),st=document.getElementById('st');
+  run.addEventListener('click',function(){
+    bad.classList.add('flag');
+    src.textContent='No supporting source found';
+    st.textContent='Flagged 1 unsupported claim out of 2.';
+  });
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  var reduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function col(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()||'#3B4BDB'}
+
+  /* 3D scene */
+  try{
+    if(!window.THREE)throw 0;
+    var C=document.getElementById('bg');
+    var R=new THREE.WebGLRenderer({canvas:C,alpha:true,antialias:true});
+    R.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+    var S=new THREE.Scene(),cam=new THREE.PerspectiveCamera(50,1,.1,100);cam.position.z=7;
+    var G=new THREE.Group();S.add(G);
+    var mk=new THREE.MeshBasicMaterial({wireframe:true,transparent:true,opacity:.42});
+    var knot=new THREE.Group();G.add(knot);
+    var layers=[4,6,8,6,4],nodes=[],E=[],P=[],li,j,k;
+    for(li=0;li<layers.length;li++){nodes[li]=[];for(j=0;j<layers[li];j++){nodes[li].push(new THREE.Vector3((li-2)*2.2,(j-(layers[li]-1)/2)*.62,(Math.random()-.5)*1.6))}}
+    var nm=new THREE.MeshBasicMaterial({transparent:true,opacity:.6}),ng=new THREE.SphereGeometry(.085,12,12);
+    var lm=new THREE.LineBasicMaterial({transparent:true,opacity:.22}),lp=[];
+    for(li=0;li<layers.length;li++){for(j=0;j<nodes[li].length;j++){
+      var nd=new THREE.Mesh(ng,nm);nd.position.copy(nodes[li][j]);knot.add(nd);
+      if(li<layers.length-1){for(k=0;k<nodes[li+1].length;k++){var a=nodes[li][j],b=nodes[li+1][k];E.push({a:a,b:b});lp.push(a.x,a.y,a.z,b.x,b.y,b.z)}}
+    }}
+    var lg=new THREE.BufferGeometry();lg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(lp),3));
+    knot.add(new THREE.LineSegments(lg,lm));
+    var pmat=new THREE.MeshBasicMaterial({color:0xFFD84D}),pgeo=new THREE.SphereGeometry(.07,10,10);
+    for(k=0;k<46;k++){var pm2=new THREE.Mesh(pgeo,pmat);knot.add(pm2);P.push({m:pm2,e:E[(Math.random()*E.length)|0],t:Math.random(),s:.006+Math.random()*.012})}
+    var N=700,pos=new Float32Array(N*3),i;
+    for(i=0;i<N;i++){
+      var r=3.5+Math.random()*6,t=Math.random()*6.283,u=Math.acos(2*Math.random()-1);
+      pos[i*3]=r*Math.sin(u)*Math.cos(t);pos[i*3+1]=r*Math.sin(u)*Math.sin(t)*.8;pos[i*3+2]=r*Math.cos(u);
+    }
+    var pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    var pm=new THREE.PointsMaterial({size:.05,transparent:true,opacity:.6});
+    var stars=new THREE.Points(pg,pm);S.add(stars);
+    var mm=new THREE.MeshBasicMaterial({color:0xFFD84D}),toks=[];
+    for(i=0;i<0;i++){
+      var m=new THREE.Mesh(new THREE.IcosahedronGeometry(.17,0),mm);G.add(m);
+      toks.push({m:m,r:2.5+i*.45,s:.5+i*.22,p:i*2.1,tilt:i*.7});
+    }
+    function theme(){mk.color.set(col('--accent'));pm.color.set(col('--soft'));nm.color.set(col('--accent'));lm.color.set(col('--accent'))}
+    theme();
+    var mq=window.matchMedia('(prefers-color-scheme:dark)');
+    if(mq.addEventListener)mq.addEventListener('change',function(){theme();draw(0)});
+    var wide=true,base=0,mx=0,sy=0;
+    function resize(){
+      var w=window.innerWidth,h=window.innerHeight;
+      R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();
+      wide=w/h>1.1;G.position.x=0;base=wide?0:1;G.scale.setScalar(wide?1:.62);
+      draw(0);
+    }
+    function draw(t){
+      knot.rotation.y=Math.sin(t*.15)*.35;knot.rotation.x=Math.sin(t*.2)*.1;
+      P.forEach(function(p){p.t+=p.s;if(p.t>=1){p.t=0;p.e=E[(Math.random()*E.length)|0];p.s=.006+Math.random()*.012}p.m.position.lerpVectors(p.e.a,p.e.b,p.t)});
+      toks.forEach(function(o){
+        var a=t*o.s+o.p;o.m.position.set(Math.cos(a)*o.r,Math.sin(a)*o.r*Math.sin(o.tilt+.6),Math.sin(a)*o.r*.8);
+        o.m.rotation.x=a;o.m.rotation.y=a*1.3;
+      });
+      stars.rotation.y=t*.025+sy*.0005;
+      G.position.y=base+sy*.004;
+      cam.position.x+=(mx*.7-cam.position.x)*.05;cam.lookAt(0,0,0);
+      R.render(S,cam);
+    }
+    window.addEventListener('resize',resize);
+    window.addEventListener('scroll',function(){sy=window.scrollY;if(reduced)draw(0)},{passive:true});
+    window.addEventListener('pointermove',function(e){mx=e.clientX/window.innerWidth-.5});
+    resize();
+    if(!reduced){
+      (function loop(ms){draw(ms/1000);requestAnimationFrame(loop)})(0);
+    }
+  }catch(e){var b=document.getElementById('bg');if(b)b.style.display='none'}
+
+  /* card tilt */
+  if(!reduced&&!window.matchMedia('(hover:none)').matches){
+    document.querySelectorAll('.lab,.panel').forEach(function(el){
+      el.style.transition='transform .2s ease-out';
+      el.addEventListener('pointermove',function(e){
+        var r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+        el.style.transform='perspective(900px) rotateY('+(x*9)+'deg) rotateX('+(-y*9)+'deg)';
+      });
+      el.addEventListener('pointerleave',function(){el.style.transform=''});
+    });
+  }
+})();
+</script>
+<script>
+(function(){
+  var E='shivamsinha8687@gmail.com',b=document.getElementById('cp'),s=document.getElementById('cps');
+  if(!b)return;
+  function done(ok){s.textContent=ok?'Email address copied.':'Could not copy. Select the address above and copy it.'}
+  b.addEventListener('click',function(){
+    function fallback(){
+      try{
+        var t=document.createElement('textarea');t.value=E;t.style.position='fixed';t.style.opacity='0';
+        document.body.appendChild(t);t.select();var ok=document.execCommand('copy');document.body.removeChild(t);done(ok);
+      }catch(e){done(false)}
+    }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(E).then(function(){done(true)},fallback);
+    }else fallback();
+  });
+})();
+</script>
+</body>
+</html>
